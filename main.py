@@ -2,11 +2,12 @@ Matrix = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z"
 MatrixLts = Matrix.split(',')
 MatrixLts += Matrix.lower().split(',')
 wordDict = {}
+entr = 0
 # wordDict [число повторений буквы в слове, вероятность, [нижняя граница, верхняя граница]]
-
 
 def func3(word):
     global wordDict
+    global entr
     wordDict[' '] = [0, 0.0, [0.0, 0.0]]
     for j in MatrixLts:
         wordDict[j] = [0, 0.0, [0.0, 0.0]]
@@ -23,9 +24,9 @@ def func3(word):
         if wordDict[q][0] != 0:
             wordDict[q][1] = wordDict[q][0]/len(word)
             wordDict[q][2][0] = varible
-            wordDict[q][2][0] = float("{0:.4f}".format(wordDict[q][2][0]))
+            wordDict[q][2][0] = float("{0:.12f}".format(wordDict[q][2][0]))
             wordDict[q][2][1] = varible = wordDict[q][1]+varible
-            wordDict[q][2][1] = float("{0:.4f}".format(wordDict[q][2][1]))
+            wordDict[q][2][1] = float("{0:.12f}".format(wordDict[q][2][1]))
 
     print(wordDict)
 # lts = [верхняя граница = 0.0, нижняя граница = 1.0 ]
@@ -40,6 +41,13 @@ def func3(word):
             print(i, " -- ", lts)
     res = float("{0:.12f}".format( lts[0]))
     print("\n""Результат кодирования '{}' -- ".format(word), res, "\n")
+    for i in MatrixLts1:
+        for j in word:
+            if (i == j):
+                entr += 1
+                break
+    print("Энтропия = ", entr)
+
 
 # декодирование
     print()
@@ -83,6 +91,6 @@ def func2(word, index):
             newWord += MatrixLts[MatrixLts.index(i) + len(MatrixLts) - index]
     print(newWord)
 
-func1("Book is very good ",13)
-func2("OBBx vF IrEL tBBq",13)
-#func3("BILL GATES")
+#func1("Book is very good ",13)
+#func2("OBBx vF IrEL tBBq",13)
+func3("BILL GATES")
