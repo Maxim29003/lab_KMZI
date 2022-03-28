@@ -1,97 +1,60 @@
-Matrix = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z"
-MatrixLts = Matrix.split(',')
-MatrixLts += Matrix.lower().split(',')
-wordDict = {}
-entr = 0
-# wordDict [число повторений буквы в слове, вероятность, [нижняя граница, верхняя граница]]
+#Перестановка
+from random import randint
 
 
-def func3(word):
-    global wordDict
-    global entr
-    wordDict[' '] = [0, 0.0, [0.0, 0.0]]
-    for j in MatrixLts:
-        wordDict[j] = [0, 0.0, [0.0, 0.0]]
-
-    for i in word:
-        wordDict[i][0] += 1
-
-    MatrixLts1 = [' ']
-    MatrixLts1 += MatrixLts
-    print(MatrixLts1)
-    varible = 0.0
-
-    for q in MatrixLts1:
-        if wordDict[q][0] != 0:
-            wordDict[q][1] = wordDict[q][0]/len(word)
-            wordDict[q][2][0] = varible
-            wordDict[q][2][0] = float("{0:.12f}".format(wordDict[q][2][0]))
-            wordDict[q][2][1] = varible = wordDict[q][1]+varible
-            wordDict[q][2][1] = float("{0:.12f}".format(wordDict[q][2][1]))
-
-    print(wordDict)
-# lts = [верхняя граница = 0.0, нижняя граница = 1.0 ]
-
-    lts = [0.0, 1.0]
-
-    for i in word:
-        if wordDict[i][0] != 0:
-            interval = float("{0:.12f}".format(lts[1]-lts[0]))
-            lts[1] = float("{0:.12f}".format(lts[0]+(interval*wordDict[i][2][1])))
-            lts[0] = float("{0:.12f}".format(lts[0]+(interval*wordDict[i][2][0])))
-            print(i, " -- ", lts)
-    res = float("{0:.12f}".format( lts[0]))
-    print("\n""Результат кодирования '{}' -- ".format(word), res, "\n")
-    for i in MatrixLts1:
-        for j in word:
-            if (i == j):
-                entr += 1
-                break
-    print("Энтропия = ", entr)
+def output(mas, str_k):
+    print("\n", str_k)
+    for b in mas:
+        print(b)
 
 
-# декодирование
-    print()
-    str_res = ""
-    ch = ""
-    for i in word:
-        for j in word:
-            if wordDict[j][2][0] <= res <= wordDict[j][2][1]:
-                ch = j
-                break
-        interval_one = wordDict[ch][2][1] - wordDict[ch][2][0]
-        res = res - wordDict[ch][2][0]
-        res = res / interval_one
-        print("res -- ", res)
-        str_res += ch
-    print("\n""Декодирование -- ", str_res)
+def encryption(mas):
+    mas_res = [[] for i in range(0, len(mas))]
+    mas_key = []
+    for f in mas[0]:
+        mas_key.append(f)
+    mas_key.sort()
+    for c in mas_key:
+        index = mas[0].index(c)
+        for i in range(0, len(mas)):
+            mas_res[i].append(mas[i][index])
+    return mas_res
 
 
-def func1(word, index):
-    newWord = ""
-    for i in word:
-        if i == ' ':
-            newWord += ' '
-            continue
-        if MatrixLts.index(i)+index <= len(MatrixLts):
-            newWord += MatrixLts[MatrixLts.index(i)+index]
-        else:
-            newWord += MatrixLts[MatrixLts.index(i) + index - len(MatrixLts)]
-    print(newWord)
+mas_one = [
+    [7,    2,   5,   3,   4,   1,   6],
+    ["т", "н", "п", "в", "е", "г", "л"],
+    ["е", "а", "р", "а", "д", "о", "н"],
+    ["р", "т", "и", "е", "ь", "в", "о"],
+    ["м", "о", "б", "т", "м", "п", "ч"],
+    ["и", "р", "ы", "с", "о", "о", "ь"]
+]
 
+mas_two = [
+    [7,    2,   5,   3,   4,   1,   6],
+    ["п", "е", "л", "и", "к", "а", "н"],
+    ["т", "н", "п", "в", "е", "г", "л"],
+    ["е", "а", "р", "а", "д", "о", "н"],
+    ["р", "т", "и", "е", "ь", "в", "о"],
+    ["м", "о", "б", "т", "м", "п", "ч"],
+    ["и", "р", "ы", "с", "о", "о", "ь"]
+]
+key_mas_two = mas_two[1]
 
-def func2(word, index):
-    newWord = ""
-    for i in word:
-        if i == ' ':
-            newWord += ' '
-            continue
-        if MatrixLts.index(i)-index >= 0:
-            newWord += MatrixLts[MatrixLts.index(i)-index]
-        else:
-            newWord += MatrixLts[MatrixLts.index(i) + len(MatrixLts) - index]
-    print(newWord)
+mas_three = [
+        [4,   1,   3,   2],
+    [3, "п", "р", "и", "л"],
+    [1, "е", "т", "а", "ю"],
+    [4, "в", "о", "с", "ь"],
+    [2, "м", "о", "г", "о"]
+]
+key_mas_three_one = mas_three[0]
+key_mas_three_two = []
 
-#func1("Book is very good ",13)
-#func2("OBBx vF IrEL tBBq",13)
-func3("BILL GATES")
+for a in mas_three[1:]:
+    key_mas_three_two.append(a[0])
+
+# output(mas_one, "первая матрица")
+# output(mas_two, "вторя матрица")
+# output(mas_three, "третья матрица")
+output(encryption(mas_two), "Результат")
