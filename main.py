@@ -8,12 +8,16 @@ def output(mas, str_k):
         print(b)
 
 
-def encryption(mas):
+def encryption(mas, button=True, key=[]):
     mas_res = [[] for i in range(0, len(mas))]
     mas_key = []
-    for f in mas[0]:
-        mas_key.append(f)
-    mas_key.sort()
+    if button == True:
+        for f in mas[0]:
+            mas_key.append(f)
+        mas_key.sort()
+    else:
+        for f in key:
+            mas_key.append(f)
     for c in mas_key:
         index = mas[0].index(c)
         for i in range(0, len(mas)):
@@ -39,22 +43,8 @@ mas_two = [
     ["м", "о", "б", "т", "м", "п", "ч"],
     ["и", "р", "ы", "с", "о", "о", "ь"]
 ]
-key_mas_two = mas_two[1]
 
-mas_three = [
-        [4,   1,   3,   2],
-    [3, "п", "р", "и", "л"],
-    [1, "е", "т", "а", "ю"],
-    [4, "в", "о", "с", "ь"],
-    [2, "м", "о", "г", "о"]
-]
-key_mas_three_one = mas_three[0]
-key_mas_three_two = []
 
-for a in mas_three[1:]:
-    key_mas_three_two.append(a[0])
-
-# output(mas_one, "первая матрица")
-# output(mas_two, "вторя матрица")
-# output(mas_three, "третья матрица")
-output(encryption(mas_two), "Результат")
+m = encryption(mas_two)
+output(m,"Зашивровал")
+output(encryption(m,False,mas_two[0]),"hfc")
