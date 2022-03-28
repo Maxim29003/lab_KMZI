@@ -5,6 +5,7 @@ wordDict = {}
 entr = 0
 # wordDict [число повторений буквы в слове, вероятность, [нижняя граница, верхняя граница]]
 
+
 def func3(word):
     global wordDict
     global entr
